@@ -4,9 +4,9 @@ title: Convertir un proyecto en AI-native
 lang: es
 ---
 > **Documento de usuario:** `docs/es/ai-native.md`
-> **Versión:** 1.2 | **Actualizado:** 2026-09-28
+> **Versión:** 1.3 | **Actualizado:** 2026-09-28
 > **Estado:** ✅ **VIGENTE**
-> **Referencias:** AGENTS.md · skill `ai-native`
+> **Referencias:** distribution.md
 
 # Convertir un proyecto en AI-native
 

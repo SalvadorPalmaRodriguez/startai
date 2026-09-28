@@ -4,9 +4,9 @@ title: Making a project AI-native
 lang: en
 ---
 > **User document:** `docs/en/ai-native.md`
-> **Version:** 1.2 | **Updated:** 2026-09-28
+> **Version:** 1.3 | **Updated:** 2026-09-28
 > **Status:** ✅ **CURRENT**
-> **References:** AGENTS.md · `ai-native` skill
+> **References:** distribution.md
 
 # Making a project AI-native
 

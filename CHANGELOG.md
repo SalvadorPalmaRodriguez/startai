@@ -55,6 +55,11 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   updated accordingly. The PQC verification example is now agnostic
   (generic `.pqsig` + `pqc_sign.pub` check; the embedded-key `verify`
   subcommand is documented only as an optional pattern for CLIs).
+- Public docs no longer mention owner-side internals at all: the
+  private-key handling column/paragraph is gone from `signing.md` (only
+  public keys and signature files are consumer-relevant), the "owner-side
+  processes" pointer sentence is removed, and `References:` headers now
+  point only to public docs, never to private internals or skills.
 
 ## [0.1.0] - 2026-09-27
 

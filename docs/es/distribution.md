@@ -4,9 +4,9 @@ title: Preparar un proyecto para distribución
 lang: es
 ---
 > **Documento de usuario:** `docs/es/distribution.md`
-> **Versión:** 1.3 | **Actualizado:** 2026-09-28
+> **Versión:** 1.4 | **Actualizado:** 2026-09-28
 > **Estado:** ✅ **VIGENTE**
-> **Referencias:** README.md · skill `distribution`
+> **Referencias:** README.md · ai-native.md
 
 # Preparar un proyecto para distribución
 

@@ -4,9 +4,9 @@ title: Firma de releases
 lang: es
 ---
 > **Documento de usuario:** `docs/es/signing.md`
-> **Versión:** 1.3 | **Actualizado:** 2026-09-28
+> **Versión:** 1.4 | **Actualizado:** 2026-09-28
 > **Estado:** ✅ **VIGENTE**
-> **Referencias:** skill `signing`
+> **Referencias:** license.md · distribution.md
 
 # Firma de releases
 
@@ -14,13 +14,10 @@ El kit establece un modelo de doble firma para los releases — una capa
 clásica y una post-cuántica — para que los usuarios puedan verificar una
 descarga **offline**:
 
-| Capa | Algoritmo | Clave privada | Clave pública |
-|------|-----------|---------------|---------------|
-| Clásica | Ed25519 (minisign) | fuera del repo, `0600` + passphrase | `minisign.pub` (raíz repo) |
-| Post-cuántica | ML-DSA-65 (FIPS 204) | fuera del repo, `0600` + passphrase | `pqc_sign.pub` (raíz repo) |
-
-Las claves privadas **nunca se commitean**; viven fuera del repositorio con
-permisos `0600` y passphrase.
+| Capa | Algoritmo | Clave pública | Fichero de firma |
+|------|-----------|---------------|------------------|
+| Clásica | Ed25519 (minisign) | `minisign.pub` (raíz repo) | `<artifact>.tar.gz.minisig` |
+| Post-cuántica | ML-DSA-65 (FIPS 204) | `pqc_sign.pub` (raíz repo) | `<artifact>.tar.gz.pqsig` |
 
 ## Verificar una descarga (offline)
 
@@ -36,9 +33,6 @@ Para proyectos que distribuyen un CLI, embeber la clave pública en el binario
 y exponer un subcomando de verificación (`<product> verify <artifact>.tar.gz`)
 es una comodidad opcional — la verificación genérica `.pqsig` + `pqc_sign.pub`
 siempre funciona.
-
-La ceremonia de firma y la rotación de claves son procesos del propietario;
-viven en la skill `signing`, no en esta guía pública.
 
 ---
 
