@@ -10,9 +10,9 @@ lang: en
 
 # Making a project AI-native
 
-The process of turning a normal project into one where an AI agent can work
-natively and consistently. The key idea: **rules live in one place, and the AI
-discovers them through standard files.**
+This guide turns your project into one where an AI agent can work natively
+and consistently. The key idea: **your rules live in one place, and agents
+discover them through standard files.**
 
 ---
 

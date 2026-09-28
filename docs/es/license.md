@@ -4,14 +4,14 @@ title: Licencias
 lang: es
 ---
 > **Documento de usuario:** `docs/es/license.md`
-> **Versión:** 1.0 | **Actualizado:** 2026-09-27
+> **Versión:** 1.1 | **Actualizado:** 2026-09-28
 > **Estado:** ✅ **VIGENTE**
 > **Referencias:** LICENSE · THIRD_PARTY_LICENSES.md
 
 # Licencias
 
-El modelo de licencia documentado aquí es **propietario de código visible**: tu
-código, visible en el repositorio, pero privado y no redistribuible.
+La licencia que tu proyecto entrega es **propietaria de código visible**: tu
+código sigue visible en el repositorio, pero privado y no redistribuible.
 
 ---
 

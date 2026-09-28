@@ -1,17 +1,17 @@
 ---
 layout: default
-title: Preparing a project for distribution
+title: Preparing your project for distribution
 lang: en
 ---
 > **User document:** `docs/en/distribution.md`
-> **Version:** 1.4 | **Updated:** 2026-09-28
+> **Version:** 1.5 | **Updated:** 2026-09-28
 > **Status:** ✅ **CURRENT**
 > **References:** README.md · ai-native.md
 
-# Preparing a project for distribution
+# Preparing your project for distribution
 
-The distribution artifacts this kit ships as templates, and how to fill them
-in for your project.
+What your new project ships out of the box — and how to fill each template
+in with your own values.
 
 ---
 
@@ -38,7 +38,7 @@ Standard structure:
 ## License
 ```
 
-## 2. What the kit ships
+## 2. What your project ships
 
 - **Bilingual static site skeleton** — a `docs/` site (config, custom layout
   with the EN/ES language switcher, styles) ready for GitHub Pages.
@@ -48,8 +48,8 @@ Standard structure:
   `CHANGELOG.md` (Keep a Changelog), `LICENSE` and `THIRD_PARTY_LICENSES.md`.
 - **`llms.txt` / `llms-full.txt`** — context files for AI indexers, with the
   legal note already included.
-- The repo is meant to be public (source-visible), and releases go out with
-  dual signatures (see [Release signing](signing.md)).
+- Your repo is meant to be public (source-visible), and your releases go out
+  with dual signatures (see [Release signing](signing.md)).
 
 ---
 

@@ -4,14 +4,14 @@ title: Licensing
 lang: en
 ---
 > **User document:** `docs/en/license.md`
-> **Version:** 1.0 | **Updated:** 2026-09-27
+> **Version:** 1.1 | **Updated:** 2026-09-28
 > **Status:** ✅ **CURRENT**
 > **References:** LICENSE · THIRD_PARTY_LICENSES.md
 
 # Licensing
 
-The licensing model documented here is **source-visible proprietary**: your own
-code, visible in the repository, but private and non-redistributable.
+The license your project ships is **source-visible proprietary**: your code
+stays visible in the repository, but private and non-redistributable.
 
 ---
 

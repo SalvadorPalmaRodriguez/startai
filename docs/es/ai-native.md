@@ -10,9 +10,9 @@ lang: es
 
 # Convertir un proyecto en AI-native
 
-El proceso para convertir un proyecto normal en uno donde un agente IA pueda
-trabajar de forma nativa y consistente. La idea clave: **las reglas viven en un
-solo sitio, y la IA las descubre mediante ficheros estándar.**
+Esta guía convierte tu proyecto en uno donde un agente IA puede trabajar de
+forma nativa y consistente. La idea clave: **tus reglas viven en un solo
+sitio, y los agentes las descubren mediante ficheros estándar.**
 
 ---
 

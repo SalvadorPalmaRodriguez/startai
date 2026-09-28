@@ -4,21 +4,22 @@ title: Release signing
 lang: en
 ---
 > **User document:** `docs/en/signing.md`
-> **Version:** 1.4 | **Updated:** 2026-09-28
+> **Version:** 1.5 | **Updated:** 2026-09-28
 > **Status:** ✅ **CURRENT**
 > **References:** license.md · distribution.md
 
 # Release signing
 
-The kit sets up a dual-signature model for releases — one classic layer and
-one post-quantum layer — so users can verify a download **offline**:
+Every release you publish gets **two signatures** — one classic, one
+post-quantum — so anyone can verify your downloads **offline**, even years
+later:
 
 | Layer | Algorithm | Public key | Signature file |
 |-------|-----------|------------|----------------|
 | Classic | Ed25519 (minisign) | `minisign.pub` (repo root) | `<artifact>.tar.gz.minisig` |
 | Post-quantum | ML-DSA-65 (FIPS 204) | `pqc_sign.pub` (repo root) | `<artifact>.tar.gz.pqsig` |
 
-## Verifying a download (offline)
+## How your users verify a download (offline)
 
 ```bash
 # minisign (Ed25519)
@@ -28,9 +29,9 @@ minisign -Vm <artifact>.tar.gz -p minisign.pub
 #   with any ML-DSA-65 verifier
 ```
 
-For projects that ship a CLI, embedding the public key in the binary and
-exposing a verify subcommand (`<product> verify <artifact>.tar.gz`) is an
-optional convenience — the generic `.pqsig` + `pqc_sign.pub` check always works.
+If your project ships a CLI, you can also embed the public key in the binary
+and offer a verify subcommand (`<product> verify <artifact>.tar.gz`) — an
+optional convenience; the generic `.pqsig` + `pqc_sign.pub` check always works.
 
 ---
 

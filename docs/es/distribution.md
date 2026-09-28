@@ -1,17 +1,17 @@
 ---
 layout: default
-title: Preparar un proyecto para distribución
+title: Preparar tu proyecto para distribución
 lang: es
 ---
 > **Documento de usuario:** `docs/es/distribution.md`
-> **Versión:** 1.4 | **Actualizado:** 2026-09-28
+> **Versión:** 1.5 | **Actualizado:** 2026-09-28
 > **Estado:** ✅ **VIGENTE**
 > **Referencias:** README.md · ai-native.md
 
-# Preparar un proyecto para distribución
+# Preparar tu proyecto para distribución
 
-Los artefactos de distribución que este kit entrega como plantillas y cómo
-rellenarlos para tu proyecto.
+Lo que tu proyecto nuevo incluye de serie — y cómo rellenar cada plantilla
+con tus propios valores.
 
 ---
 
@@ -38,7 +38,7 @@ Estructura estándar:
 ## Licencia
 ```
 
-## 2. Qué entrega el kit
+## 2. Lo que incluye tu proyecto
 
 - **Esqueleto de sitio estático bilingüe** — un sitio `docs/` (configuración,
   layout propio con selector de idioma EN/ES, estilos) listo para GitHub Pages.
@@ -48,7 +48,7 @@ Estructura estándar:
   `CHANGELOG.md` (Keep a Changelog), `LICENSE` y `THIRD_PARTY_LICENSES.md`.
 - **`llms.txt` / `llms-full.txt`** — ficheros de contexto para indexadores IA,
   con la nota legal ya incluida.
-- El repo está pensado para ser público (código visible), y los releases salen
+- Tu repo está pensado para ser público (código visible), y tus releases salen
   con doble firma (ver [Firma de releases](signing.md)).
 
 ---
