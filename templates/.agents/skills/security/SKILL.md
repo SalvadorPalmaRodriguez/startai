@@ -46,7 +46,7 @@ des-ignora lo privado solo para las tools del agente) vive en
 | `scripts/git/pre-commit` | cada `git commit` | Secretos en **blobs staged** (`git show ":$file"`), rutas privadas staged, `.gitignore` staged sin los patrones privados, `.devinignore` que niega secretos |
 | `scripts/git/commit-msg` | cada `git commit` | Trailers de atribución IA (`Co-Authored-By:`, `Generated with`…) — el autor/firmante es solo el humano |
 | `scripts/git/pre-push` | cada `git push` | Tests + auditoría `--strict` |
-| `run_all.sh --strict` | manual / hook / release | Checks `01` (secretos en la superficie publicada) y `23` (rutas privadas e integridad de `.gitignore`/`.devinignore`), entre otros |
+| `run_all.sh --strict` | manual / hook / release | Checks `01` (secretos en la superficie publicada), `23` (rutas privadas e integridad de `.gitignore`/`.devinignore`) y `24` (referencias a rutas privadas en docs públicos — skills citadas por nombre, no por ruta), entre otros |
 
 Antes de cada push:
 

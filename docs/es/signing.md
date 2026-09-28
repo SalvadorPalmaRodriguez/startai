@@ -4,9 +4,9 @@ title: Firma de releases
 lang: es
 ---
 > **Documento de usuario:** `docs/es/signing.md`
-> **Versión:** 1.0 | **Actualizado:** 2026-09-27
+> **Versión:** 1.1 | **Actualizado:** 2026-09-28
 > **Estado:** ✅ **VIGENTE**
-> **Referencias:** .agents/skills/signing/SKILL.md
+> **Referencias:** skill `signing`
 
 # Firma de releases
 

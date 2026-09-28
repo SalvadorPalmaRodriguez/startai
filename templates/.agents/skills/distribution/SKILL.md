@@ -32,7 +32,7 @@ description: Prepare a project for distribution: bilingual README, demo GIF, shi
 ### 3. Apartado "About" del repositorio (GitHub)
 - **Description**: una frase con palabras clave.
 - **Website**: la URL del sitio GitHub Pages (`https://<owner>.github.io/<repo>/`).
-- **Topics**: etiquetas de descubrimiento (lenguaje, dominio, "cli", "tor", etc.).
+- **Topics**: etiquetas de descubrimiento (lenguaje, dominio, "cli", "docs", etc.).
 
 ### 4. Sitio estático (GitHub Pages)
 - Publicar desde `docs/` (Jekyll). Ver `github-pages/SKILL.md`.

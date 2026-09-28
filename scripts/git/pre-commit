@@ -231,11 +231,10 @@ echo "  ✅ Sin rutas privadas en el índice"
 
 # ─── 6. Aviso temprano de advisories (hueco — NO bloqueante) ─────────────
 # startai no tiene lockfile ni herramienta de advisories de ecosistema.
-# Si se añade una (p.ej. pip-audit con requirements.txt), seguir el patrón
-# de enola-cli-lite/scripts/git/pre-commit §6: avisar aquí con la DB cacheada
-# (--no-fetch / equivalente, sin red) y dejar el bloqueo autoritativo al
-# pre-push. NUNCA bloquear en commit: un advisory upstream no debe impedir
-# commitear trabajo local en curso.
+# Si se añade una (p.ej. pip-audit con requirements.txt), avisar aquí con la
+# DB cacheada (--no-fetch / equivalente, sin red) y dejar el bloqueo
+# autoritativo al pre-push. NUNCA bloquear en commit: un advisory upstream
+# no debe impedir commitear trabajo local en curso.
 
 echo "  ✅ pre-commit OK"
 exit 0

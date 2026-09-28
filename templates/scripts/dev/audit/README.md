@@ -55,3 +55,9 @@ what lets `templates/scripts/dev/audit/` be an identical copy except for
 
 Escape hatch: `MARKER_IGNORE_RE` (check 17) filters self-referential marker
 mentions — see its header comment for the accepted trade-off.
+
+Check 24 (`public_doc_refs`) flags private-path references in public docs:
+R1 errors on any private path in a `References`/`Referencias` header line;
+R2 errors on private paths elsewhere unless the file is listed in the
+profile's `PUBLIC_DOC_PRIVATE_REF_ALLOW`. Needles are derived from
+`PRIVATE_GLOBS` and `templates/` is out of scope.

@@ -95,6 +95,11 @@ mkdir -p .agents/skills/<name>
 # ❌ Negar secretos en .devinignore (entrarían en contexto del agente)
 # ❌ AGENTS.md anidado duplicando el índice completo de la raíz
 # ❌ llms.txt con enlaces rotos o sin nota legal
+# ❌ Rutas privadas en docs públicos: en documentación pública las skills se
+#    citan por NOMBRE (`ai-native` skill), nunca por ruta; `.agents/`,
+#    `scripts/dev/`, `docs/dev/` no aparecen en cabeceras de Referencias ni
+#    como punteros — barrera mecánica: check 24_public_doc_refs de la
+#    auditoría (los ficheros tutorial se allowlistan en el perfil).
 ```
 
 ## Cross-references

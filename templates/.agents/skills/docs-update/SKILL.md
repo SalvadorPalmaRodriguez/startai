@@ -28,6 +28,8 @@ Cada doc público lleva cabecera y debe mantenerse:
   documento**, no la del producto — no tienen por qué coincidir.
 - **Actualizado/Updated**: fecha de hoy, formato `YYYY-MM-DD`.
 - Si el documento tiene `Estado`/`Status` y `Referencias`, mantenerlos.
+  La línea `Referencias`/`References` solo admite rutas **públicas**; las
+  skills se citan por nombre, nunca por ruta privada (check 24).
 - La auditoría (`scripts/dev/audit/`, check `05_docs_crossref`) verifica el
   formato de estas cabeceras — respetarlo exactamente.
 

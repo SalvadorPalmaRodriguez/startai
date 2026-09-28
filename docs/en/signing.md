@@ -4,9 +4,9 @@ title: Release signing
 lang: en
 ---
 > **User document:** `docs/en/signing.md`
-> **Version:** 1.0 | **Updated:** 2026-09-27
+> **Version:** 1.1 | **Updated:** 2026-09-28
 > **Status:** ✅ **CURRENT**
-> **References:** .agents/skills/signing/SKILL.md
+> **References:** `signing` skill
 
 # Release signing
 

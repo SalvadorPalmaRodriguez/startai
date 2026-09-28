@@ -15,6 +15,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   for idempotent re-runs, opt-in enforcement (hooks never auto-installed),
   `--emit-dir` staging renders that never touch the target, and a two-phase
   `--manual` checklist mode (render first, then copy).
+- Audit check 24 (`public_doc_refs`): flags private-path references inside
+  public docs — References headers always error (R1), prose references error
+  unless the file is in the profile's `PUBLIC_DOC_PRIVATE_REF_ALLOW` (R2).
+  Needles are derived from `PRIVATE_GLOBS`; scope excludes `templates/`.
 - GitHub issue forms (bug report, feature request, contact links) in
   `.github/ISSUE_TEMPLATE/` and in the scaffold via
   `templates/.github/ISSUE_TEMPLATE/`.
@@ -35,6 +39,11 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   `description:` frontmatter). New optional profile variable
   `MARKER_IGNORE_RE` filters matching hit lines before counting; empty =
   previous behaviour.
+- Public docs no longer leak private repo structure: skills are cited by
+  name (never by `.agents/skills/...` path) in doc headers and prose; index
+  cells no longer list `.agents/`. Non-agnostic leftovers removed (`tor`
+  topic example from another project, a sibling-repo name in a pre-commit
+  comment).
 
 ## [0.1.0] - 2026-09-27
 

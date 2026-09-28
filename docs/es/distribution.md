@@ -4,9 +4,9 @@ title: Preparar un proyecto para distribución
 lang: es
 ---
 > **Documento de usuario:** `docs/es/distribution.md`
-> **Versión:** 1.0 | **Actualizado:** 2026-09-27
+> **Versión:** 1.1 | **Actualizado:** 2026-09-28
 > **Estado:** ✅ **VIGENTE**
-> **Referencias:** README.md · .agents/skills/distribution/SKILL.md
+> **Referencias:** README.md · skill `distribution`
 
 # Preparar un proyecto para distribución
 
@@ -56,11 +56,11 @@ En la configuración del repositorio (About), establece:
 
 - **Description** — una frase con palabras clave.
 - **Website** — la URL de GitHub Pages: `https://<owner>.github.io/<repo>/`.
-- **Topics** — etiquetas de descubrimiento (lenguaje, dominio, `cli`, `tor`…).
+- **Topics** — etiquetas de descubrimiento (lenguaje, dominio, `cli`, `docs`…).
 
 ## 4. Sitio estático (GitHub Pages)
 
-Publica desde `docs/` con Jekyll (ver la skill `github-pages`, `.agents/skills/github-pages/SKILL.md`).
+Publica desde `docs/` con Jekyll (ver la skill `github-pages`).
 Ajusta: Settings → Pages → Source → Deploy from branch → `/docs`.
 
 ## 5. Social preview / Open Graph
