@@ -1,0 +1,49 @@
+# ─── Artefactos locales del repo startai ─────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+preview.txt
+.venv/
+venv/
+.DS_Store
+Thumbs.db
+*~
+
+# ─── Secretos — NUNCA commitear ─────────────────────────────────────────
+*.key
+*.pem
+*.p12
+*.pfx
+.env
+.env.*
+minisign.key
+
+# ─── Notas y planes personales ──────────────────────────────────────────
+NOTES.md
+MEGAPLAN-*.md
+
+# ─── Contexto IA privado del propietario ──────────────────────────────────
+# Estos son SOLO para el desarrollo local. El contenido reutilizable que el
+# generador copia al proyecto nuevo vive en templates/AGENTS.md y
+# templates/.agents/ (públicos, versionados) — de ahí las negaciones.
+**/AGENTS.md
+!templates/AGENTS.md
+.agents/
+!templates/.agents/
+!templates/.agents/**
+CLAUDE.md
+.claude/
+.devin/
+.devinignore
+!templates/.devinignore
+
+# ─── Herramientas y docs de desarrollo (privadas) ────────────────────────
+# Ancladas a la raíz: NO deben ignorar templates/scripts/dev/ ni
+# templates/docs/dev/ — el contenido de templates/ es público a propósito
+# (viaja al proyecto generado, donde esas mismas rutas sí son privadas).
+/docs/dev/
+/scripts/dev/
+/security-audit/
+
+# Artefactos de release locales (scripts/dev/release.sh)
+/dist/

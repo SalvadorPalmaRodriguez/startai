@@ -1,0 +1,38 @@
+# {{product_name}} — Full Context for LLMs
+
+> {{description}}
+
+## What it is
+
+- Product: `{{product_name}}`, command `{{product_slug}}`. Current version: {{version}}.
+- Purpose: {{purpose}}
+- Platform: {{platform}}. Stack: {{language}}.
+- License: source-visible proprietary. Free for personal, non-commercial use.
+  No redistribution, no commercial use. Copyright (c) {{year}} {{owner}}.
+- Security reporting: report vulnerabilities privately to {{email}} within 72
+  hours of discovery; public disclosure is prohibited until remediation
+  (license §5).
+- Architecture: {{architecture}}.
+
+## AI Usage
+
+- Indexing and reading this repository by AI systems is permitted.
+- AI-readable documentation does NOT constitute a license grant.
+
+## Installation
+
+```
+{{install_command}}
+```
+
+## Command reference
+
+```
+{{command_tree}}
+```
+
+## Release signing
+
+- Classic: minisign (Ed25519).
+- Post-quantum: ML-DSA-65 (FIPS 204).
+- Private keys are never committed; verify offline with the embedded key.

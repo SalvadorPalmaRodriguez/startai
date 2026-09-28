@@ -1,0 +1,110 @@
+#!/usr/bin/env bash
+# pre-push — Verificaciones antes de git push (proyecto generado).
+#
+#   1. Coherencia del proyecto (scripts/check.py)
+#   2. Tests del proyecto — hueco comentado: descomenta con tu comando real
+#   3. Auditoría completa (run_all.sh --profile project --strict)
+#
+# La auditoría vive en scripts/dev/ (privado, gitignored): si el hook corre
+# en un clon sin ese tooling, el paso 3 degrada a aviso, no a error.
+#
+# Instalar:
+#   bash scripts/git/install-hooks.sh
+
+set -euo pipefail
+
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+cd "$PROJECT_ROOT"
+
+echo "🔍 Pre-push checks"
+echo "================================"
+echo ""
+
+# ─── 1. Coherencia del proyecto ─────────────────────────────────────────
+echo "1/3  🔍 python3 scripts/check.py"
+if ! python3 scripts/check.py; then
+    echo "" >&2
+    echo "❌ Validación falló. Corrige y reintenta." >&2
+    exit 1
+fi
+echo "  ✅ Proyecto coherente"
+echo ""
+
+# ─── 2. Tests del proyecto (hueco — descomenta con tu comando real) ──────
+echo "2/3  🧪 Tests del proyecto"
+# Descomenta y adapta a tu stack (make test / cargo test / npm test / pytest):
+# if ! <TU_COMANDO_DE_TESTS>; then
+#     echo "" >&2
+#     echo "❌ Tests fallaron. Revisa los errores arriba." >&2
+#     exit 1
+# fi
+echo "  ℹ️  Sin comando de tests configurado (ver scripts/git/pre-push)"
+echo ""
+
+# ─── 3. Auditoría completa (anti-leak, docs IA, versión, enlaces) ────────
+echo "3/3  🔍 run_all.sh --profile project --strict"
+if [ ! -f scripts/dev/audit/run_all.sh ]; then
+    # scripts/dev/ es privado (gitignored): un clon público no lo tiene.
+    # Se avisa y se sigue — el gate lo ejerce quien sí tiene el tooling.
+    echo "  ⚠️  scripts/dev/audit/run_all.sh no existe (tooling privado" >&2
+    echo "     ausente en este clon) — auditoría saltada." >&2
+    echo ""
+    echo "================================"
+    echo "✅ Verificaciones disponibles pasaron. Listo para push."
+    exit 0
+fi
+
+# Se guarda transcripción sin ANSI para poder señalar el check culpable.
+# mktemp (no un nombre predecible en /tmp) evita symlink attack y crea con 0600.
+AUDIT_LOG="$(mktemp -t prepush_audit.XXXXXX)"
+# OJO: no usar `if ! cmd; then AUDIT_RC=$?` — el `!` invierte el estado y
+# $? valdría 0 dentro del then. Se captura con `|| AUDIT_RC=$?`.
+AUDIT_RC=0
+bash scripts/dev/audit/run_all.sh --profile project --strict \
+    --output "$AUDIT_LOG" || AUDIT_RC=$?
+
+if [ "$AUDIT_RC" -ne 0 ]; then
+    echo "" >&2
+    if [ "$AUDIT_RC" -eq 2 ]; then
+        echo "❌ Push bloqueado: la auditoría NO tiene errores, pero sí warnings." >&2
+        echo "   Con --strict, UN SOLO warning bloquea (run_all.sh exit=2)." >&2
+    else
+        echo "❌ Push bloqueado: auditoría con errores (run_all.sh exit=$AUDIT_RC)." >&2
+    fi
+    echo "" >&2
+
+    # Checks culpables, a partir de las sentinelas AUDIT_RESULT.
+    OFFENDERS=$(awk '/^AUDIT_RESULT /{
+        c=""; e=0; w=0
+        for (i=1; i<=NF; i++) {
+            if ($i ~ /^check=/)    c = substr($i, 7)
+            if ($i ~ /^errors=/)   e = substr($i, 8) + 0
+            if ($i ~ /^warnings=/) w = substr($i, 10) + 0
+        }
+        if (e > 0 || w > 0) printf "    · %s → errors=%d warnings=%d\n", c, e, w
+    }' "$AUDIT_LOG")
+    if [ -n "$OFFENDERS" ]; then
+        echo "  Checks con hallazgos:" >&2
+        printf '%s\n' "$OFFENDERS" >&2
+        echo "" >&2
+    fi
+
+    DETAIL=$(grep -E "(ERROR|WARN):" "$AUDIT_LOG" | head -20 || true)
+    if [ -n "$DETAIL" ]; then
+        echo "  Detalle:" >&2
+        printf '%s\n' "$DETAIL" | sed 's/^ */    /' >&2
+        echo "" >&2
+    fi
+
+    echo "  Transcripción completa (sin colores): $AUDIT_LOG" >&2
+    echo "" >&2
+    echo "  Escape puntual (NO recomendado): git push --no-verify" >&2
+    exit 1
+fi
+rm -f "$AUDIT_LOG"
+echo "  ✅ Auditoría limpia"
+echo ""
+
+echo "================================"
+echo "✅ Todas las verificaciones pasaron. Listo para push."
+exit 0

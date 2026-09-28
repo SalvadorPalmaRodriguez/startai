@@ -1,0 +1,16 @@
+name: bugfix
+description: Flujo para corregir un bug
+
+steps:
+  - id: reproduce
+    description: Reproducir el bug antes de tocar código
+  - id: root-cause
+    description: Identificar la causa raíz antes de implementar
+  - id: fix
+    description: Fix mínimo en el origen, no un workaround aguas abajo
+  - id: test
+    description: Test de regresión que cubra el bug + suite del proyecto en verde
+  - id: check
+    run: python3 scripts/check.py
+  - id: commit
+    run: git commit -m "fix(<scope>): <mensaje>"

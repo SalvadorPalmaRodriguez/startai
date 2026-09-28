@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: 'en' }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% if page.title %}{{ page.title | escape }} · {{ site.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
+    <meta name="description" content="{{ page.description | default: site.description }}">
+    <link rel="stylesheet" href="{{ '/assets/hacker.css' | relative_url }}">
+</head>
+<body>
+    {% comment %}── Language mapping (bidirectional EN ↔ ES) ──{% endcomment %}
+    {% assign current_lang = 'en' %}
+    {% assign lang_alt = '/es/' %}
+
+    {% if page.url contains '/es/' %}
+        {% assign current_lang = 'es' %}
+        {% assign lang_alt = '/' %}
+        {% case page.url %}
+        {% when '/es/' %}{% assign lang_alt = '/' %}
+        {% when '/es/ai-native.html' %}{% assign lang_alt = '/en/ai-native.html' %}
+        {% when '/es/distribution.html' %}{% assign lang_alt = '/en/distribution.html' %}
+        {% when '/es/license.html' %}{% assign lang_alt = '/en/license.html' %}
+        {% when '/es/signing.html' %}{% assign lang_alt = '/en/signing.html' %}
+        {% endcase %}
+    {% elsif page.url contains '/en/' %}
+        {% assign current_lang = 'en' %}
+        {% assign lang_alt = '/es/' %}
+        {% case page.url %}
+        {% when '/en/' %}{% assign lang_alt = '/es/' %}
+        {% when '/en/ai-native.html' %}{% assign lang_alt = '/es/ai-native.html' %}
+        {% when '/en/distribution.html' %}{% assign lang_alt = '/es/distribution.html' %}
+        {% when '/en/license.html' %}{% assign lang_alt = '/es/license.html' %}
+        {% when '/en/signing.html' %}{% assign lang_alt = '/es/signing.html' %}
+        {% endcase %}
+    {% endif %}
+
+    <header class="site-header">
+        <div class="wrapper site-header-inner">
+            <a class="site-title" href="{{ '/' | relative_url }}">
+                <img src="{{ '/assets/logo.svg' | relative_url }}" alt="{{ site.title }}" class="site-logo" width="24" height="24">
+                {{ site.title | escape }}
+            </a>
+            <div class="lang-switcher">
+                {% if current_lang == 'en' %}
+                    <a href="{{ lang_alt | relative_url }}" class="lang-flag" title="Español">🇪🇸</a>
+                    <span class="lang-flag active" title="English">🇺🇸</span>
+                {% else %}
+                    <span class="lang-flag active" title="Español">🇪🇸</span>
+                    <a href="{{ lang_alt | relative_url }}" class="lang-flag" title="English">🇺🇸</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+    <main class="page-content">
+        <div class="wrapper">
+            {{ content }}
+        </div>
+    </main>
+    <footer class="site-footer">
+        <div class="wrapper">
+            <a href="https://github.com/{{ site.github_owner | default: 'OWNER' }}/{{ site.github_repo | default: 'REPO' }}">GitHub</a> ·
+            <span>{{ site.title | escape }}</span>
+        </div>
+    </footer>
+</body>
+</html>

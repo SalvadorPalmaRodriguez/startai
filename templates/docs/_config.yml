@@ -1,0 +1,9 @@
+title: {{product_name}}
+description: >-
+  {{description}}
+github_owner: {{github_user}}
+github_repo: {{repo}}
+theme: null
+show_downloads: false
+plugins:
+  - jekyll-sitemap

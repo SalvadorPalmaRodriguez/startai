@@ -1,0 +1,11 @@
+title: startai
+description: >-
+  Reusable, project-agnostic documentation and templates to make a project
+  AI-native and distribution-ready — bilingual README, GitHub Pages site,
+  source-visible proprietary licensing, and dual release signing.
+theme: null
+github_owner: SalvadorPalmaRodriguez
+github_repo: startai
+show_downloads: false
+plugins:
+  - jekyll-sitemap

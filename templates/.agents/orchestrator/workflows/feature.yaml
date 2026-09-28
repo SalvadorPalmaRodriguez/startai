@@ -1,0 +1,16 @@
+name: feature
+description: Flujo para implementar una nueva funcionalidad
+
+steps:
+  - id: plan
+    description: Leer AGENTS.md y la skill del dominio antes de escribir código
+  - id: implement
+    description: Implementación mínima siguiendo las reglas del proyecto
+  - id: test
+    description: Tests nuevos para la funcionalidad; suite del proyecto en verde
+  - id: docs
+    description: Actualizar la documentación afectada (skill docs-update, EN/ES)
+  - id: audit
+    run: bash scripts/dev/audit/run_all.sh --profile project --strict
+  - id: commit
+    run: git commit -m "feat(<scope>): <mensaje>"

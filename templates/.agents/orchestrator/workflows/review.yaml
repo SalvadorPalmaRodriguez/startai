@@ -1,0 +1,12 @@
+name: review
+description: Flujo de revisión de código
+
+steps:
+  - id: rules
+    description: Verificar cumplimiento de AGENTS.md y de las skills aplicables
+  - id: security
+    description: Sin secretos ni rutas privadas en el diff (skill security)
+  - id: consistency
+    description: Consistencia EN/ES y placeholders resueltos (skill docs-update)
+  - id: tests
+    description: Cobertura de tests suficiente para el cambio

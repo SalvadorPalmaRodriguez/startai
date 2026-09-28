@@ -1,0 +1,23 @@
+{
+  "product_name": "My Project",
+  "product_slug": "my-project",
+  "owner": "Your Name",
+  "email": "you@example.com",
+  "year": "2026",
+  "github_user": "your-github-user",
+  "repo": "my-project",
+  "version": "0.1.0",
+  "date": "2026-01-01",
+  "platform": "Linux",
+  "language": "Python",
+  "architecture": "modular",
+  "tagline": "One-line pitch of your project",
+  "description": "What your project does, in one sentence.",
+  "purpose": "Why this project exists.",
+  "install_command": "make install",
+  "command_tree": "my-project\n├── init\n├── run\n└── help",
+  "dir_structure": "src/\n├── core/\n├── cli/\n└── utils/",
+  "feature_1": "One-command setup",
+  "feature_2": "Sensible, secure defaults",
+  "feature_3": "Extensible and scriptable"
+}

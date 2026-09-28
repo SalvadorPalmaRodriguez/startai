@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640">
+  <rect width="1280" height="640" fill="#0d1117"/>
+  <g stroke="#30363d" stroke-width="1">
+    <line x1="80" y1="520" x2="1200" y2="520"/>
+    <line x1="80" y1="600" x2="1200" y2="600"/>
+  </g>
+  <text x="80" y="220" fill="#3fb950" font-family="Consolas, Menlo, monospace" font-size="72" font-weight="bold">{{product_name}}</text>
+  <text x="80" y="290" fill="#c9d1d9" font-family="Consolas, Menlo, monospace" font-size="36">{{tagline}}</text>
+  <text x="80" y="500" fill="#8b949e" font-family="Consolas, Menlo, monospace" font-size="24">{{install_command}}</text>
+</svg>
