@@ -84,5 +84,6 @@ minisign -Vm <artifact>.tar.gz -p minisign.pub
 ```
 
 ## Cross-references
-- Para la ceremonia completa del proyecto de referencia → ver `docs/en/signing.md` / `docs/es/signing.md`
+- Esta skill contiene la ceremonia completa y la rotación; los docs públicos
+  (`docs/*/signing.md`) solo cubren el modelo y la verificación del usuario.
 - Para la licencia y terceros → ver `license/SKILL.md`
