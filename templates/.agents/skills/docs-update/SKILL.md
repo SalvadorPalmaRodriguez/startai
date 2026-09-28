@@ -16,6 +16,13 @@ description: Documentation update protocol — after every code change, bump doc
 Actualizar los documentos afectados **antes del commit**. Una tarea no está
 terminada si el código dice una cosa y la documentación otra.
 
+### Regla editorial de los docs públicos
+Los docs públicos **no duplican** el contenido de las skills (regla de oro
+§2) y **no documentan** pasos elementales de plataforma (Settings de GitHub,
+herramientas de terceros). Documentan las plantillas y el generador del kit,
+y la parte de usuario/consumidor. Los procesos de propietario (ceremonias,
+rotación de claves) viven solo en la skill correspondiente.
+
 ### Cabecera de cada documento modificado
 Cada doc público lleva cabecera y debe mantenerse:
 

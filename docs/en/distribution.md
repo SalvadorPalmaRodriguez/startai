@@ -4,14 +4,14 @@ title: Preparing a project for distribution
 lang: en
 ---
 > **User document:** `docs/en/distribution.md`
-> **Version:** 1.1 | **Updated:** 2026-09-28
+> **Version:** 1.3 | **Updated:** 2026-09-28
 > **Status:** ✅ **CURRENT**
 > **References:** README.md · `distribution` skill
 
 # Preparing a project for distribution
 
-How to leave a project ready for distribution in a repository, with the same
-visibility and promotion sections as a polished public repo.
+The distribution artifacts this kit ships as templates, and how to fill them
+in for your project.
 
 ---
 
@@ -38,41 +38,18 @@ Standard structure:
 ## License
 ```
 
-## 2. Demo GIF
+## 2. What the kit ships
 
-Record a terminal session and render it to a GIF:
-
-```bash
-asciinema rec docs/demo.cast      # record
-agg docs/demo.cast docs/demo.gif  # render to GIF
-```
-
-Commit the `.gif` (plus the `.cast` and the script that produces it) under
-`docs/`. Reference it from the README and the static site home.
-
-## 3. GitHub "About" section
-
-In the repository settings (About), set:
-
-- **Description** — one sentence with keywords.
-- **Website** — the GitHub Pages URL: `https://<owner>.github.io/<repo>/`.
-- **Topics** — discovery tags (language, domain, `cli`, `docs`, …).
-
-## 4. Static site (GitHub Pages)
-
-Publish from `docs/` with Jekyll (see the `github-pages` skill).
-Set: Settings → Pages → Source → Deploy from branch → `/docs`.
-
-## 5. Social preview / Open Graph
-
-Create a 1280×640 image (`docs/assets/social-preview.svg`) and upload it as PNG
-in Settings → Social preview, so links render a nice card.
-
-## 6. Visibility and promotion
-
-- Repository public (source-visible).
-- `SECURITY.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, `LICENSE`.
-- Signed releases (see [Release signing](signing.md)) and `llms.txt` for AI.
+- **Bilingual static site skeleton** — a `docs/` site (config, custom layout
+  with the EN/ES language switcher, styles) ready for GitHub Pages.
+- **`docs/assets/social-preview.svg`** — a 1280×640 template for the
+  link-preview card; edit the texts and export it to PNG.
+- **Community and legal templates** — `SECURITY.md`, `CONTRIBUTING.md`,
+  `CHANGELOG.md` (Keep a Changelog), `LICENSE` and `THIRD_PARTY_LICENSES.md`.
+- **`llms.txt` / `llms-full.txt`** — context files for AI indexers, with the
+  legal note already included.
+- The repo is meant to be public (source-visible), and releases go out with
+  dual signatures (see [Release signing](signing.md)).
 
 ---
 

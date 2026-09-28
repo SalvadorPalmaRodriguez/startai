@@ -10,6 +10,11 @@ description: Release signing ceremony with minisign (Ed25519) and post-quantum M
 - Gestionar las claves de firma (minisign + PQC) y su rotación.
 - Documentar a los usuarios cómo verificar las descargas.
 
+> Esta skill es la **fuente única** del proceso de firma (ceremonia y
+> rotación son del propietario). El doc público solo cubre el modelo y la
+> verificación por el usuario; no duplicar — ver `docs-update/SKILL.md`,
+> regla editorial.
+
 ## Modelo de firma: doble capa
 
 | Capa | Algoritmo | Clave privada | Clave pública | Herramienta |
@@ -43,9 +48,13 @@ description: Release signing ceremony with minisign (Ed25519) and post-quantum M
 # minisign
 minisign -Vm <artifact>.tar.gz -p minisign.pub
 
-# PQC (con la clave pública embebida en el binario)
-<product> verify <artifact>.tar.gz
+# ML-DSA-65: verificar <artifact>.tar.gz.pqsig contra pqc_sign.pub
+#   con cualquier verificador ML-DSA-65
 ```
+
+Si el producto distribuye un CLI, una opción es embeber la clave pública en el
+binario y exponer un subcomando (`<product> verify <artifact>.tar.gz`) — útil
+pero opcional: la verificación genérica `.pqsig` + `pqc_sign.pub` siempre vale.
 
 ## Rotación de claves
 

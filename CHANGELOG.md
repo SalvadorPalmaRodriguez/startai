@@ -45,6 +45,17 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   topic example from another project, a sibling-repo name in a pre-commit
   comment).
 
+### Changed
+- Public docs (`docs/*/distribution.md`, `docs/*/signing.md`) no longer
+  publish owner-side processes (signing ceremony, key rotation) or
+  elementary platform steps (GitHub Settings, third-party tools) — that
+  content already lives in the private skills (golden rule: rules live in
+  one place). The docs now cover the kit's templates and the user-facing
+  part (offline signature verification). Indexes, README and llms files
+  updated accordingly. The PQC verification example is now agnostic
+  (generic `.pqsig` + `pqc_sign.pub` check; the embedded-key `verify`
+  subcommand is documented only as an optional pattern for CLIs).
+
 ## [0.1.0] - 2026-09-27
 
 ### Added

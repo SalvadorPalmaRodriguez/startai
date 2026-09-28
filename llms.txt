@@ -1,6 +1,6 @@
 # startai
 
-> startai is a documentation repository of reusable, project-agnostic processes and templates to (1) turn a normal project into an AI-native project and (2) leave a project ready for distribution in a repository: bilingual README, demo GIF, static GitHub Pages site, GitHub "About" section, visibility and promotion, source-visible proprietary licensing, and dual release signing (minisign Ed25519 + post-quantum ML-DSA-65, FIPS 204).
+> startai is a documentation repository of reusable, project-agnostic processes and templates to (1) turn a normal project into an AI-native project and (2) leave a project ready for distribution in a repository: bilingual README + static-site templates, distribution artifacts, visibility and promotion, source-visible proprietary licensing, and a dual release-signing model (minisign Ed25519 + post-quantum ML-DSA-65, FIPS 204).
 
 Important notes:
 
@@ -13,9 +13,9 @@ Important notes:
 
 - [README](https://github.com/SalvadorPalmaRodriguez/startai/blob/main/README.md): What this repo is, index of the two core guides, and `startai.py adopt` — layered, non-destructive adoption of the kit into existing projects (preflight checks, `.startai-new` conflicts, opt-in hooks)
 - [Making a project AI-native (EN)](https://salvadorpalmarodriguez.github.io/startai/en/ai-native): AGENTS.md, .agents/ (agents + skills), llms.txt, public/private split
-- [Preparing a project for distribution (EN)](https://salvadorpalmarodriguez.github.io/startai/en/distribution): README, GIF, GitHub.io page, About section, visibility
+- [Preparing a project for distribution (EN)](https://salvadorpalmarodriguez.github.io/startai/en/distribution): README/site templates, distribution artifacts, visibility
 - [Licensing (EN)](https://salvadorpalmarodriguez.github.io/startai/en/license): source-visible proprietary license + third-party notices
-- [Release signing (EN)](https://salvadorpalmarodriguez.github.io/startai/en/signing): minisign + ML-DSA-65 ceremony
+- [Release signing (EN)](https://salvadorpalmarodriguez.github.io/startai/en/signing): dual signing model + offline verification
 
 ## Documentation (Spanish)
 

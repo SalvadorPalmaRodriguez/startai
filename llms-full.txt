@@ -6,7 +6,7 @@
 
 - Product: `startai`, a documentation + templates kit (no runnable code).
 - Goal 1 — AI-native: `AGENTS.md`, nested `AGENTS.md`, `.agents/agents/*.md` (roles), `.agents/skills/*/SKILL.md` (self-contained domain skills), `llms.txt` / `llms-full.txt` (public AI context), and a public/private split via `.gitignore` + `.devinignore`.
-- Goal 2 — Distribution: bilingual `README` (EN/ES), demo GIF, static GitHub Pages site (Jekyll, `theme: null`, custom layout with EN/ES switcher), GitHub "About" section (description, website, topics), social preview image, badges, `SECURITY.md`, `CONTRIBUTING.md`, `CHANGELOG.md`.
+- Goal 2 — Distribution: bilingual `README` (EN/ES), bilingual static-site skeleton (config, custom layout with EN/ES switcher), social-preview SVG template, `SECURITY.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, `llms.txt`.
 - Licensing model: **source-visible proprietary** — your own code, visible in the repo, but private and non-redistributable. `LICENSE` is a template whose `{{product_name}}`, `{{owner}}`, `{{email}}`, `{{year}}` variables are populated from `config.example.json`; `THIRD_PARTY_LICENSES.md` documents third-party notices.
 - Scaffolding: `config.example.json` is the single source of truth for project variables; `scripts/startai.py` (Python 3, no dependencies) renders a new project from `templates/` + the shared root files.
 - Signing model: dual signature — **minisign (Ed25519)** classic + **ML-DSA-65 (FIPS 204)** post-quantum. Documented in `.agents/skills/signing/` and `docs/en/signing.md`.
@@ -63,7 +63,7 @@ a `.startai-adopt.json` manifest, and a `--manual` checklist mode.
 4. Static site: `docs/` served by Jekyll with `theme: null`, custom `_layouts/default.html`, EN/ES language switcher (Liquid `case`), `_config.yml`, social preview 1280×640.
 5. `SECURITY.md` (coordinated disclosure), `CONTRIBUTING.md`, `CHANGELOG.md` (Keep a Changelog).
 6. Licensing: `LICENSE` (source-visible proprietary) + `THIRD_PARTY_LICENSES.md`.
-7. Release signing: minisign (Ed25519) + ML-DSA-65 (PQC); verify offline.
+7. Release signing: dual model — minisign (Ed25519) + ML-DSA-65 (PQC); users verify downloads offline. The owner-side ceremony and key rotation live in the `signing` skill, not in the public docs.
 
 ## Licensing
 
@@ -71,7 +71,7 @@ Source-visible proprietary license (English + Spanish): the Licensor grants a li
 
 ## Release signing (minisign + PQC)
 
-- Classic: minisign (Ed25519) — private key `~/.minisign/<product>.key`, public key `minisign.pub` at repo root.
-- Post-quantum: ML-DSA-65 (FIPS 204) — private key `~/.<product>/pqc_signing.key`, public key `pqc_sign.pub` at repo root.
+- Classic: minisign (Ed25519) — private key lives outside the repo (0600 + passphrase), public key `minisign.pub` at repo root.
+- Post-quantum: ML-DSA-65 (FIPS 204) — private key lives outside the repo (0600 + passphrase), public key `pqc_sign.pub` at repo root.
 - Private keys are never committed; they live outside the repo with `0600` permissions.
 - Ceremony: build → package → sha256 → minisign → pqc sign → verify → SBOM → GitHub release → re-sign update feed → git tag → cleanup.

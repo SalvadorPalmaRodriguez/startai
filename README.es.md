@@ -5,7 +5,7 @@
 > Un repositorio de documentación con **procesos y plantillas reutilizables y agnósticos a cualquier proyecto** que responden a dos preguntas:
 >
 > 1. **¿Cómo convierto un proyecto normal en un proyecto AI-native?** — `AGENTS.md`, `.agents/` (agents + skills), `llms.txt` / `llms-full.txt` y la separación público/privado para que los agentes IA trabajen sin filtrar secretos.
-> 2. **¿Cómo dejo un proyecto listo para su distribución en un repositorio?** — `README` bilingüe, GIF de demostración, sitio estático en GitHub Pages, apartado "About" de GitHub, visibilidad/promoción, licencia y firma de releases.
+> 2. **¿Cómo dejo un proyecto listo para su distribución en un repositorio?** — `README` bilingüe + plantillas de sitio estático, artefactos de distribución, visibilidad/promoción, licencia y un modelo de doble firma de releases.
 
 Todo aquí está **guiado por configuración**: los valores específicos del proyecto viven en un único fichero (`config.example.json`) y el generador interactivo `scripts/startai.py` crea un proyecto nuevo a partir de ellos — sin buscar placeholders a mano.
 
@@ -16,16 +16,16 @@ Todo aquí está **guiado por configuración**: los valores específicos del pro
 | Área | Dónde | Propósito |
 |------|-------|-----------|
 | Desarrollo AI-native | `templates/AGENTS.md`, `templates/.agents/`, `templates/llms.txt`, `templates/llms-full.txt` | Reglas, skills y roles de agente que se generan en proyectos nuevos (privados allí, vía `templates/.gitignore`). |
-| Distribución y promoción | `README.md`, `docs/`, `SECURITY.md`, `CONTRIBUTING.md`, `CHANGELOG.md` | README bilingüe, GIF de demo, sitio estático GitHub Pages, About/topics/badges. |
+| Distribución y promoción | `README.md`, `docs/`, `SECURITY.md`, `CONTRIBUTING.md`, `CHANGELOG.md` | README bilingüe, plantillas de sitio estático bilingüe, ficheros legales/comunidad. |
 | Licencias | `LICENSE`, `THIRD_PARTY_LICENSES.md` | Licencia propietaria de código visible (nombre como placeholder) + avisos de terceros. |
-| Firma de releases | `templates/.agents/skills/signing/`, `docs/*/signing.md` | Ceremonia de firma minisign (Ed25519) + ML-DSA-65 post-cuántica. |
+| Firma de releases | `templates/.agents/skills/signing/`, `docs/*/signing.md` | Modelo de doble firma (minisign Ed25519 + ML-DSA-65 post-cuántica) y verificación offline. |
 | Config & scaffolding | `config.example.json`, `scripts/startai.py` | Única fuente de verdad para las variables + generador interactivo. |
 | Plantillas listas para copiar | `templates/` | Plantillas de identidad renderizadas por el generador. |
 
 ## Las dos guías principales
 
 - **[Convertir un proyecto en AI-native](docs/es/ai-native.md)** ([EN](docs/en/ai-native.md)) — el proceso exacto, paso a paso.
-- **[Preparar un proyecto para distribución](docs/es/distribution.md)** ([EN](docs/en/distribution.md)) — README, GIF, página GitHub.io, apartado About, visibilidad y promoción.
+- **[Preparar un proyecto para distribución](docs/es/distribution.md)** ([EN](docs/en/distribution.md)) — plantillas de README y sitio, artefactos de distribución, visibilidad y promoción.
 
 ## Generar un proyecto nuevo
 

@@ -1,5 +1,5 @@
 > **Documento:** `docs/README.md`
-> **Versión:** 1.0 | **Actualizado:** 2026-09-27
+> **Versión:** 1.1 | **Actualizado:** 2026-09-28
 > **Estado:** ✅ **VIGENTE — Índice de documentación**
 
 # Documentación — startai
@@ -14,9 +14,9 @@
 |-----------|-------------|
 | [index.md](en/index.md) | Índice en inglés |
 | [ai-native.md](en/ai-native.md) | Convertir un proyecto en AI-native |
-| [distribution.md](en/distribution.md) | Preparar un proyecto para distribución |
+| [distribution.md](en/distribution.md) | Plantillas de distribución del kit |
 | [license.md](en/license.md) | Licencia propietaria de código visible |
-| [signing.md](en/signing.md) | Firma minisign + ML-DSA-65 |
+| [signing.md](en/signing.md) | Doble firma + verificación offline |
 
 ## Español (`docs/es/`)
 
@@ -24,9 +24,9 @@
 |-----------|-------------|
 | [index.md](es/index.md) | Índice en español |
 | [ai-native.md](es/ai-native.md) | Convertir un proyecto en AI-native |
-| [distribution.md](es/distribution.md) | Preparar un proyecto para distribución |
+| [distribution.md](es/distribution.md) | Plantillas de distribución del kit |
 | [license.md](es/license.md) | Licencia propietaria de código visible |
-| [signing.md](es/signing.md) | Firma minisign + ML-DSA-65 |
+| [signing.md](es/signing.md) | Doble firma + verificación offline |
 
 ## Changelog
 

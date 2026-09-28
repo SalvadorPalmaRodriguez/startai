@@ -4,56 +4,39 @@ title: Release signing
 lang: en
 ---
 > **User document:** `docs/en/signing.md`
-> **Version:** 1.1 | **Updated:** 2026-09-28
+> **Version:** 1.3 | **Updated:** 2026-09-28
 > **Status:** ✅ **CURRENT**
 > **References:** `signing` skill
 
 # Release signing
 
-Every release is signed twice to verify authenticity — including offline:
+The kit sets up a dual-signature model for releases — one classic layer and
+one post-quantum layer — so users can verify a download **offline**:
 
 | Layer | Algorithm | Private key | Public key |
 |-------|-----------|-------------|------------|
-| Classic | Ed25519 (minisign) | `~/.minisign/<product>.key` | `minisign.pub` (repo root) |
-| Post-quantum | ML-DSA-65 (FIPS 204) | `~/.<product>/pqc_signing.key` | `pqc_sign.pub` (repo root) |
+| Classic | Ed25519 (minisign) | outside the repo, `0600` + passphrase | `minisign.pub` (repo root) |
+| Post-quantum | ML-DSA-65 (FIPS 204) | outside the repo, `0600` + passphrase | `pqc_sign.pub` (repo root) |
 
-Private keys are **never committed**; they live outside the repo with `0600`
-permissions and a passphrase.
+Private keys are **never committed**; they live outside the repository with
+`0600` permissions and a passphrase.
 
----
-
-## Signing ceremony
-
-1. **Reproducible build** — compile with neutral paths (no `/home/<user>`).
-2. **Package** — tarball the artifact.
-3. **SHA256** — `sha256sum <artifact>.tar.gz`.
-4. **minisign** — `minisign -S -m <artifact>.tar.gz -s ~/.minisign/<product>.key`.
-5. **PQC** — sign with ML-DSA-65 → `<artifact>.tar.gz.pqsig`.
-6. **Local verification** — verify minisign, PQC and SHA256 before publishing.
-7. **SBOM** — generate the Software Bill of Materials (SPDX).
-8. **Publish** — upload artifact + signatures + SBOM to GitHub Releases.
-9. **Re-sign the update feed** (if any) with minisign.
-10. **Tag** — `git tag -s` (PGP) and push.
-11. **Cleanup** — remove temporary files.
-
-## Verification by the user (offline)
+## Verifying a download (offline)
 
 ```bash
 # minisign (Ed25519)
 minisign -Vm <artifact>.tar.gz -p minisign.pub
 
-# post-quantum (ML-DSA-65), key embedded in the binary
-<product> verify <artifact>.tar.gz
+# ML-DSA-65: verify <artifact>.tar.gz.pqsig against pqc_sign.pub
+#   with any ML-DSA-65 verifier
 ```
 
-## Key rotation
+For projects that ship a CLI, embedding the public key in the binary and
+exposing a verify subcommand (`<product> verify <artifact>.tar.gz`) is an
+optional convenience — the generic `.pqsig` + `pqc_sign.pub` check always works.
 
-1. Generate a new key (`minisign -G`).
-2. Sign the new public key with the current key.
-3. Announce it in the feed (`next_pubkey`) if one exists.
-4. Wait one update cycle for clients to persist the new key.
-5. Rotate the signing key on the next release and update `minisign.pub` + the
-   embedded key.
+The signing ceremony and key rotation are owner-side processes; they live in
+the `signing` skill, not in this public guide.
 
 ---
 

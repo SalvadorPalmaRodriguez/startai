@@ -5,7 +5,7 @@
 > A documentation repository of **reusable, project-agnostic** processes and templates that answer two questions:
 >
 > 1. **How do I turn a normal project into an AI-native project?** — `AGENTS.md`, `.agents/` (agents + skills), `llms.txt` / `llms-full.txt`, and the public/private split so AI agents can work without leaking secrets.
-> 2. **How do I leave a project ready for distribution in a repository?** — bilingual `README`, demo GIF, static GitHub Pages site, GitHub "About" section, visibility/promotion, licensing and release signing.
+> 2. **How do I leave a project ready for distribution in a repository?** — bilingual `README` + static-site templates, distribution artifacts, visibility/promotion, licensing and a dual release-signing model.
 
 Everything here is **config-driven**: project-specific values live in a single config file (`config.example.json`), and the interactive scaffolder `scripts/startai.py` generates a new project from them — no manual placeholder hunting.
 
@@ -16,16 +16,16 @@ Everything here is **config-driven**: project-specific values live in a single c
 | Area | Where | Purpose |
 |------|-------|---------|
 | AI-native development | `templates/AGENTS.md`, `templates/.agents/`, `templates/llms.txt`, `templates/llms-full.txt` | Rules, skills and agent roles scaffolded into new projects (private there, via `templates/.gitignore`). |
-| Distribution & promotion | `README.md`, `docs/`, `SECURITY.md`, `CONTRIBUTING.md`, `CHANGELOG.md` | Bilingual README, demo GIF, GitHub Pages static site, About/topics/badges. |
+| Distribution & promotion | `README.md`, `docs/`, `SECURITY.md`, `CONTRIBUTING.md`, `CHANGELOG.md` | Bilingual README, bilingual static-site templates, community/legal files. |
 | Licensing | `LICENSE`, `THIRD_PARTY_LICENSES.md` | Source-visible proprietary license (placeholder name) + third-party notices. |
-| Release signing | `templates/.agents/skills/signing/`, `docs/*/signing.md` | minisign (Ed25519) + post-quantum ML-DSA-65 signature ceremony. |
+| Release signing | `templates/.agents/skills/signing/`, `docs/*/signing.md` | dual signature model (minisign Ed25519 + post-quantum ML-DSA-65) and offline verification. |
 | Config & scaffolding | `config.example.json`, `scripts/startai.py` | Single source of truth for variables + interactive generator. |
 | Copy-paste templates | `templates/` | Project-identity templates rendered by the scaffolder. |
 
 ## The two core guides
 
 - **[Making a project AI-native](docs/en/ai-native.md)** ([ES](docs/es/ai-native.md)) — the exact process, step by step.
-- **[Preparing a project for distribution](docs/en/distribution.md)** ([ES](docs/es/distribution.md)) — README, GIF, GitHub.io page, About section, visibility and promotion.
+- **[Preparing a project for distribution](docs/en/distribution.md)** ([ES](docs/es/distribution.md)) — README and site templates, distribution artifacts, visibility and promotion.
 
 ## Scaffolding a new project
 

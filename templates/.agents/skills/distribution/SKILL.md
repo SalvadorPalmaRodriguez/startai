@@ -11,6 +11,10 @@ description: Prepare a project for distribution: bilingual README, demo GIF, shi
 - Crear/actualizar README bilingüe, GIF de demo, badges, apartado "About",
   imagen de social preview, o configurar visibilidad y promoción.
 
+> Esta skill es la **fuente única** del proceso de distribución (propietario
+> incluido). El doc público solo cubre las plantillas del kit y la parte de
+> usuario; no duplicar — ver `docs-update/SKILL.md`, regla editorial.
+
 ## Proceso (paso a paso)
 
 ### 1. README bilingüe (EN/ES)
