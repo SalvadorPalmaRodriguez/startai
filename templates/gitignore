@@ -1,0 +1,100 @@
+# ─── Plantilla de split público/privado (agnóstica) ─────────────────────────
+# Este repositorio es PÚBLICO: aquí se ignoran los ficheros privados del
+# propietario y las herramientas de desarrollo local. Adapta las rutas a tu
+# ecosistema (Rust target/, Node node_modules/, Python __pycache__/, etc.).
+
+# Build artifacts
+target/
+/dist/
+/node_modules/
+/build/
+
+# Secrets and credentials — NUNCA commitear
+*.env
+.env
+.env*
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Generated session context (dev tooling)
+/_session_context.md
+/tmp/*_session_context.md
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+*~
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Notas personales del desarrollador
+NOTES.md
+
+# Planes de implementación e historial de sesiones (privados, no versionados)
+MEGAPLAN-*.md
+history_*.md
+
+# Config de generación del scaffold (contiene owner/email reales — estado local
+# de reproducción, no contenido del proyecto)
+config.json
+
+# Manifiesto de adopción del kit (estado local de generación — misma
+# justificación que config.json)
+.startai-adopt.json
+
+# Ignore-files de agentes IA (contienen negaciones que des-ignoran
+# ficheros privados para las tools; no deben versionarse)
+.devinignore
+.codeiumignore
+.windsurfignore
+
+# Python cache
+__pycache__/
+*.pyc
+
+# ─── Archivos privados del propietario (NO commitear) ───────────────────────
+# Herramientas y ficheros de desarrollo privados del propietario.
+# El repo es público pero estas rutas son solo para desarrollo local.
+
+# >>> startai:if-ai-private >>>
+# Archivos de contexto IA (raíz + anidados por directorio)
+**/AGENTS.md
+
+# Project Brain (privado — roles, skills, memoria, workflows)
+.agents/
+
+# Claude Code bridge (privado — apunta a AGENTS.md/.agents/skills, ambos gitignored)
+CLAUDE.md
+.claude/
+# <<< startai:endif <<<
+
+# Config local de herramientas de agente (permisos, rutas personales)
+.devin/
+.codeium/
+.windsurf/
+
+# Herramientas de desarrollo (audit, build, test, session_start, release)
+docs/dev/
+scripts/dev/
+
+# Plantillas de issues (.github) — descomenta para hacer públicas solo las .yml
+# .github/ISSUE_TEMPLATE/*
+# !.github/ISSUE_TEMPLATE/bug_report.yml
+# !.github/ISSUE_TEMPLATE/config.yml
+
+# Claves privadas de firma — cubierto por *.key; si usas otra extensión, añádela aquí
+# (incluye feed/minisign.key; el directorio feed/ en sí es PÚBLICO: contiene
+#  el índice firmado de actualizaciones y la clave pública)
+
+# Reportes privados de auditoría de seguridad
+security-audit/
+
+# Tests (si prefieres mantenerlos privados)
+# tests/

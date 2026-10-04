@@ -1,0 +1,259 @@
+#!/usr/bin/env bash
+# pre-commit — Verificaciones locales antes de cada commit (proyecto generado).
+#
+#   1. Coherencia del proyecto (scripts/check.py)
+#   2. Anti-secretos: escanea el CONTENIDO de los blobs staged (git show ":file")
+#   3. Rutas privadas en el índice (defensa estructural anti-leak)
+#   4. Integridad del .gitignore staged (conserva los patrones privados)
+#   5. .devinignore staged no niega secretos
+#   6. (hueco) Aviso temprano de advisories — descomenta si tu ecosistema
+#      tiene lockfile + herramienta (cargo audit, pip-audit, npm audit...).
+#
+# Los pasos 2-5 necesitan git: fuera de un repo degradan a aviso, no a error.
+#
+# Instalar:
+#   bash scripts/git/install-hooks.sh
+
+set -euo pipefail
+
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+cd "$PROJECT_ROOT"
+
+# ─── 1. Coherencia del proyecto ─────────────────────────────────────────
+echo "🔍 Comprobando coherencia del proyecto (scripts/check.py)..."
+if ! python3 scripts/check.py; then
+    echo "" >&2
+    echo "  ❌ La validación falló. Corrige y reintenta." >&2
+    echo "  Escape puntual (NO recomendado): git commit --no-verify" >&2
+    exit 1
+fi
+echo "  ✅ Proyecto coherente"
+
+# ─── Contexto git (degradación limpia fuera de un repo) ──────────────────
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo "  ⚠️  No es un repo git — se saltan las comprobaciones de blobs/índice" >&2
+    exit 0
+fi
+
+# Ficheros staged (Added/Copied/Modified). Se lee el BLOB del índice
+# (git show ":file"), nunca el worktree: escanear el worktree producía falsos
+# negativos (leak en índice pero borrado del worktree → pasaba) y falsos
+# positivos (leak solo en worktree, nada staged → bloqueaba sin motivo).
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM || true)
+
+# ─── 2. Anti-secretos en blobs staged ─────────────────────────────────────
+# Mantener sincronizada con checks/01_secrets_and_creds.sh (perfil project):
+# mismo conjunto de patrones, aquí aplicado a blobs staged.
+echo "🔍 Escaneando blobs staged por secretos/credenciales..."
+SECRET_REGEXES=(
+    '-----BEGIN [A-Z ]*PRIVATE KEY-----'
+    'AKIA[0-9A-Z]{16}'
+    'AIza[0-9A-Za-z_-]{35}'
+    'sk-[a-zA-Z0-9]{30,}'
+    'gsk_[a-zA-Z0-9]{30,}'
+    'xai-[a-zA-Z0-9]{30,}'
+    'ghp_[a-zA-Z0-9]{36}'
+    'gho_[a-zA-Z0-9]{36}'
+    'ghs_[a-zA-Z0-9]{36}'
+    'eyJ[a-zA-Z0-9_-]{20,}\.[a-zA-Z0-9_-]{20,}\.[a-zA-Z0-9_-]{20,}'
+    'Bearer [a-zA-Z0-9_-]{40,}'
+    '(postgres|mysql|mongodb|redis)://[^:]+:[^@]+@'
+    '(password|passwd|api_key|apikey|secret|token)[[:space:]]*[=:][[:space:]]*["'\''][^$<{"'\'']{4,}["'\'']'
+)
+
+# Exclusiones: ficheros trackeados que contienen los propios patrones por
+# definición. Añadir aquí (con motivo) cualquier falso positivo legítimo.
+SCAN_EXCLUDE=(
+    'scripts/git/pre-commit' # este hook (contiene SECRET_REGEXES)
+)
+
+FOUND_LEAKS=0
+while IFS= read -r file; do
+    [[ -z "$file" ]] && continue
+    skip=0
+    for ex in "${SCAN_EXCLUDE[@]}"; do
+        [[ "$file" == "$ex" ]] && skip=1 && break
+    done
+    [[ "$skip" -eq 1 ]] && continue
+    content=$(git show ":$file" 2>/dev/null) || continue
+    for re in "${SECRET_REGEXES[@]}"; do
+        if printf '%s\n' "$content" | grep -qiIE -e "$re"; then
+            echo "❌ SECRETO en blob staged: patrón '$re' en $file" >&2
+            FOUND_LEAKS=1
+        fi
+    done
+done <<< "$STAGED_FILES"
+
+if [[ "$FOUND_LEAKS" -ne 0 ]]; then
+    echo "" >&2
+    echo "  Nunca se commitean secretos. Para sacar del índice:" >&2
+    echo "    git rm --cached <ruta>" >&2
+    echo "  Escape puntual (NO recomendado): git commit --no-verify" >&2
+    exit 1
+fi
+echo "  ✅ Sin secretos en blobs staged"
+
+# ─── 3-5. Defensa estructural anti-leak ──────────────────────────────────
+# Si .gitignore se relaja alguna vez o se usa `git add -f`, rutas que JAMÁS
+# deben publicarse podrían quedar staged.
+#
+# Las listas de abajo DUPLICAN la política canónica del perfil de auditoría:
+# mantener sincronizadas con scripts/dev/audit/profiles/project.conf
+# (PRIVATE_GLOBS / PUBLIC_EXCEPTIONS / REQUIRED_GITIGNORE). Se duplican a
+# propósito: scripts/dev/ es privado (gitignored) y un clon limpio no lo
+# tiene — el hook debe proteger también sin él.
+#
+# EXCEPCIÓN a la duplicación: los términos cuyo NOMBRE es privado (marcas,
+# metodología interna…) no pueden escribirse aquí — este hook es público.
+# Se cargan de scripts/dev/forbidden-terms.conf (gitignored, un ERE por
+# línea) y bloquean cualquier ruta staged que los contenga.
+PRIVATE_TERMS_FILE="${STARTAI_PRIVATE_TERMS_FILE:-$PROJECT_ROOT/scripts/dev/forbidden-terms.conf}"
+PRIVATE_TERMS=()
+if [[ -f "$PRIVATE_TERMS_FILE" ]]; then
+    while IFS= read -r t; do
+        [[ "$t" =~ ^[[:space:]]*(#|$) ]] && continue
+        PRIVATE_TERMS+=("$t")
+    done < "$PRIVATE_TERMS_FILE"
+fi
+
+PRIVATE_GLOBS=(
+# >>> startai:if-ai-private >>>
+    'AGENTS.md'
+    '.agents/*'
+    'CLAUDE.md'
+    '.claude/*'
+# <<< startai:endif <<<
+    '.devin/*'
+    '.devinignore'
+    '.codeium/*'
+    '.codeiumignore'
+    '.windsurf/*'
+    '.windsurfignore'
+    'NOTES.md'
+    'MEGAPLAN-*.md'
+    'history_*.md'
+    'config.json'
+    'docs/dev/*'
+    'scripts/dev/*'
+    'security-audit/*'
+    '*.key'
+    '*.pem'
+    '*.p12'
+    '*.pfx'
+    '.env'
+    '.env.*'
+    'minisign.key'
+    # Estado local de adopción (como config.json). NO está en
+    # REQUIRED_GITIGNORE a propósito: adoptar el kit no debe crear una
+    # puerta dura nueva — basta con bloquear la ruta si queda staged.
+    '.startai-adopt.json'
+)
+
+# Excepciones públicas (ninguna por defecto: un proyecto generado no tiene
+# directorio templates/). Añade aquí rutas privadas-publicadas a propósito.
+PUBLIC_EXCEPTIONS=()
+
+# Líneas literales que DEBEN seguir presentes en un .gitignore staged.
+REQUIRED_GITIGNORE=(
+# >>> startai:if-ai-private >>>
+    '**/AGENTS.md'
+    '.agents/'
+    'CLAUDE.md'
+    '.claude/'
+# <<< startai:endif <<<
+    '.devin/'
+    '.devinignore'
+    '.codeium/'
+    '.windsurf/'
+    'NOTES.md'
+    'MEGAPLAN-*.md'
+    'config.json'
+    'docs/dev/'
+    'scripts/dev/'
+    'security-audit/'
+    '*.key'
+    '*.pem'
+    '.env'
+)
+
+is_private_path() {
+    local f="$1" g t
+    for g in "${PUBLIC_EXCEPTIONS[@]:-}"; do
+        [[ "$f" == $g ]] && return 1
+    done
+    for g in "${PRIVATE_GLOBS[@]:-}"; do
+        # verbatim + "<dir>/glob" (un patrón .gitignore sin '/' inicial
+        # casa a cualquier nivel)
+        [[ "$f" == $g || "$f" == */$g ]] && return 0
+    done
+    for t in "${PRIVATE_TERMS[@]:-}"; do
+        [[ "$f" =~ $t ]] && return 0
+    done
+    return 1
+}
+
+# ─── 3. Rutas privadas staged ────────────────────────────────────────────
+PRIVATE_STAGED=0
+while IFS= read -r file; do
+    [[ -z "$file" ]] && continue
+    if is_private_path "$file"; then
+        echo "❌ RUTA PRIVADA staged: $file" >&2
+        PRIVATE_STAGED=1
+    fi
+done <<< "$STAGED_FILES"
+
+# ─── 4. Integridad del .gitignore staged ─────────────────────────────────
+# El worktree podría estar restaurado pero el índice no: hay que mirar el blob.
+if printf '%s\n' "$STAGED_FILES" | grep -qx '.gitignore'; then
+    STAGED_GI="$(git show ':.gitignore' 2>/dev/null || true)"
+    for pat in "${REQUIRED_GITIGNORE[@]:-}"; do
+        if ! printf '%s\n' "$STAGED_GI" | grep -Fxq "$pat"; then
+            echo "❌ .gitignore staged elimina el patrón privado: '$pat'" >&2
+            PRIVATE_STAGED=1
+        fi
+    done
+fi
+
+# ─── 5. .devinignore staged no niega secretos ────────────────────────────
+# Las negaciones '!' des-ignoran rutas SOLO para las tools del agente; negar
+# un secreto lo metería en contexto IA. Mantener el regex sincronizado con
+# el check 23.4 del framework de auditoría.
+while IFS= read -r file; do
+    [[ -z "$file" ]] && continue
+    case "$file" in
+        .devinignore|*/.devinignore) ;;
+        *) continue ;;
+    esac
+    blob=$(git show ":$file" 2>/dev/null) || continue
+    BAD_NEG=$(printf '%s\n' "$blob" | grep -nE '^!' \
+        | grep -iE 'key|pem|p12|pfx|env|secret|session\.json|providers\.|credential|passwd' \
+        || true)
+    if [ -n "$BAD_NEG" ]; then
+        echo "❌ $file staged niega posibles secretos:" >&2
+        printf '    %s\n' "$BAD_NEG" >&2
+        PRIVATE_STAGED=1
+    fi
+done <<< "$STAGED_FILES"
+
+if [[ "$PRIVATE_STAGED" -ne 0 ]]; then
+    echo "" >&2
+    echo "  Rutas privadas no se publican NUNCA. Para sacar del índice:" >&2
+    echo "    git rm --cached <ruta>" >&2
+    echo "  Si la publicación es deliberada (raro): git commit --no-verify" >&2
+    exit 1
+fi
+echo "  ✅ Sin rutas privadas en el índice"
+
+# ─── 6. Aviso temprano de advisories (hueco — NO bloqueante) ─────────────
+# Si tu ecosistema tiene lockfile + herramienta de advisories, avisa aquí con
+# la DB cacheada (sin red) y deja el bloqueo autoritativo al pre-push:
+#
+#   if command -v cargo-audit &>/dev/null; then
+#       cargo audit --no-fetch || echo "⚠️  advisories — el push sí bloquea"
+#   fi
+#
+# NUNCA bloquear en commit: un advisory upstream no debe impedir commitear
+# trabajo local en curso.
+
+echo "  ✅ pre-commit OK"
+exit 0

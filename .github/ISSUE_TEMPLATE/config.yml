@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report (private)
+    url: https://github.com/SalvadorPalmaRodriguez/startai/blob/main/SECURITY.md
+    about: Never report vulnerabilities in public issues — follow SECURITY.md and report by email.
+  - name: Documentation
+    url: https://salvadorpalmarodriguez.github.io/startai/
+    about: Check the docs first — your question may already be answered there.

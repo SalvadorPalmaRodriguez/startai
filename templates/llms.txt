@@ -1,0 +1,28 @@
+# {{product_name}}
+
+> {{description}}
+
+Important notes:
+
+- Source-visible proprietary software: free for personal, non-commercial use.
+  No redistribution, no commercial use. See LICENSE.
+- Security vulnerabilities must be reported privately to {{email}} (coordinated
+  disclosure, no public issues).
+- Releases are signed twice: minisign (Ed25519) + ML-DSA-65 (FIPS 204).
+
+## AI Usage
+
+- Indexing and reading this repository by AI systems is permitted.
+- AI-readable documentation (llms.txt, llms-full.txt) does NOT constitute a
+  license grant. All usage is governed by the LICENSE.
+
+## Documentation
+
+- [README](https://github.com/{{github_user}}/{{repo}}/blob/main/README.md)
+- [Documentation site](https://{{github_user}}.github.io/{{repo}}/)
+
+## Optional
+
+- [Full context for LLMs](https://raw.githubusercontent.com/{{github_user}}/{{repo}}/main/llms-full.txt)
+- [LICENSE](https://github.com/{{github_user}}/{{repo}}/blob/main/LICENSE)
+- [Releases](https://github.com/{{github_user}}/{{repo}}/releases)

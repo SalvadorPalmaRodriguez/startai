@@ -1,0 +1,45 @@
+# Configuración del orquestador (dev-agent)
+# >>> startai:if-ai-private >>>
+# Privado (gitignored vía .agents/). Agnóstico al proyecto, editor e IA.
+# <<< startai:endif <<<
+# >>> startai:if-ai-public >>>
+# Agnóstico al proyecto, editor e IA. (.agents/ versionado —
+# ai_files_visibility="public".)
+# <<< startai:endif <<<
+
+version: 1
+
+project:
+  name: "{{product_slug}}"
+  language: "{{language}}"
+  architecture: "{{architecture}}"
+  roadmap: .agents/orchestrator/memory/roadmap.md
+
+knowledge:
+  agents_md: AGENTS.md              # reglas generales (estándar agents.md, raíz)
+  nested_agents: []                 # AGENTS.md anidados por directorio (si los hay)
+  skills_dir: .agents/skills/       # habilidades por dominio (estándar SKILL.md)
+  skills:                           # lista explícita para el orquestador
+    - ai-native
+    - architecture
+    - distribution
+    - docs-update
+    - github-pages
+    - license
+    - release
+    - security
+    - signing
+    - updates
+
+# Contrato del orquestador (custom, agnóstico)
+orchestrator:
+  roles_dir: .agents/orchestrator/roles/
+  workflows_dir: .agents/orchestrator/workflows/
+  memory_dir: .agents/orchestrator/memory/
+  state_dir: .agents/orchestrator/state/
+
+# Conocimiento público (versionado en Git)
+public_knowledge:
+  - llms.txt
+  - llms-full.txt
+  - docs/

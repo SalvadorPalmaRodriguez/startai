@@ -1,0 +1,15 @@
+{
+  "schema_version": "1",
+  "latest": "0.1.0",
+  "min_supported": "0.1.0",
+  "download_url": "https://github.com/SalvadorPalmaRodriguez/startai/releases/download/v0.1.0/startai-v0.1.0.tar.gz",
+  "published_at": "2026-10-04T12:31:38Z",
+  "docs_url": "https://salvadorpalmarodriguez.github.io/startai/",
+  "severity_summary": { "critical": 0, "high": 0, "medium": 0, "low": 0 },
+  "signature_urls": [
+    "https://salvadorpalmarodriguez.github.io/startai/feed/advisories.json.minisig"
+  ],
+  "advisories": [],
+  "milestones": [],
+  "enforce_updates": false
+}

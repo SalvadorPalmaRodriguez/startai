@@ -1,0 +1,12 @@
+{
+  "schema_version": "1",
+  "latest": "{{version}}",
+  "min_supported": "{{version}}",
+  "download_url": "https://github.com/{{github_user}}/{{repo}}/releases",
+  "published_at": "{{date}}T00:00:00Z",
+  "docs_url": "https://{{github_user}}.github.io/{{repo}}/",
+  "severity_summary": { "critical": 0, "high": 0, "medium": 0, "low": 0 },
+  "signature_urls": [],
+  "advisories": [],
+  "enforce_updates": false
+}

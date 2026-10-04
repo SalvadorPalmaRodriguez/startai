@@ -1,0 +1,30 @@
+# startai
+
+> startai is a documentation repository of reusable, project-agnostic processes and templates to (1) turn a normal project into an AI-native project and (2) leave a project ready for distribution in a repository: bilingual README + static-site templates, distribution artifacts, visibility and promotion, source-visible proprietary licensing, and a dual release-signing model (minisign Ed25519 + post-quantum ML-DSA-65, FIPS 204).
+
+Important notes:
+
+- This repository documents a **source-visible proprietary** licensing model: your own code, visible in the repo, but private and non-redistributable. The shipped [LICENSE](https://github.com/SalvadorPalmaRodriguez/startai/blob/main/LICENSE) is a template whose `{{product_name}}` / `{{owner}}` / `{{email}}` / `{{year}}` variables are populated from `config.example.json` by `scripts/startai.py`.
+- AI readability does NOT constitute a license grant. All usage is governed by the LICENSE.
+- Security vulnerabilities must be reported privately (coordinated disclosure, no public issues). See [SECURITY.md](https://github.com/SalvadorPalmaRodriguez/startai/blob/main/SECURITY.md).
+- Releases are signed twice: minisign (Ed25519) and ML-DSA-65 (FIPS 204). See the signing guide.
+
+## Documentation
+
+- [README](https://github.com/SalvadorPalmaRodriguez/startai/blob/main/README.md): What this repo is, index of the two core guides, and `startai.py adopt` — layered, non-destructive adoption of the kit into existing projects (preflight checks, `.startai-new` conflicts, opt-in hooks)
+- [Making a project AI-native (EN)](https://salvadorpalmarodriguez.github.io/startai/en/ai-native): AGENTS.md, .agents/ (agents + skills), llms.txt, public/private split
+- [Preparing a project for distribution (EN)](https://salvadorpalmarodriguez.github.io/startai/en/distribution): README/site templates, distribution artifacts, visibility
+- [Licensing (EN)](https://salvadorpalmarodriguez.github.io/startai/en/license): source-visible proprietary license + third-party notices
+- [Release signing (EN)](https://salvadorpalmarodriguez.github.io/startai/en/signing): dual signing model + offline verification
+
+## Documentation (Spanish)
+
+- [Convertir un proyecto en AI-native](https://salvadorpalmarodriguez.github.io/startai/es/ai-native)
+- [Preparar un proyecto para distribución](https://salvadorpalmarodriguez.github.io/startai/es/distribution)
+- [Licencias](https://salvadorpalmarodriguez.github.io/startai/es/license)
+- [Firma de releases](https://salvadorpalmarodriguez.github.io/startai/es/signing)
+
+## Optional
+
+- [Full context for LLMs](https://raw.githubusercontent.com/SalvadorPalmaRodriguez/startai/main/llms-full.txt): Single-file expanded project context
+- [LICENSE](https://github.com/SalvadorPalmaRodriguez/startai/blob/main/LICENSE): Source-visible proprietary license template (English + Spanish)

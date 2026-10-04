@@ -1,0 +1,35 @@
+# Des-ignora ficheros privados SOLO para las tools del agente (read/edit/grep).
+# Git NO lee este fichero: todo sigue ignorado para commits — no hay ventana
+# de leak ni paso de restauración. Añadir una negación por cada patrón
+# privado de .gitignore que se quiera editar con tools.
+#
+# REGLA: NUNCA negar secretos (*.key, *.pem, .env*, ficheros de credenciales
+# del proyecto) — no deben entrar en contexto del agente.
+# Tampoco negar artefactos (target/, dist/, node_modules/, *.log, IDE) —
+# mantienen las búsquedas rápidas.
+
+# Notas y planes de desarrollo
+!NOTES.md
+!MEGAPLAN-*.md
+
+# Contexto IA (AGENTS.md raíz + anidados, skills, bridges)
+!AGENTS.md
+!**/AGENTS.md
+!.agents/
+!.agents/**
+!CLAUDE.md
+!.claude/
+!.claude/**
+
+# Herramientas y docs de desarrollo (audit, release, tests)
+!docs/dev/
+!docs/dev/**
+!scripts/dev/
+!scripts/dev/**
+
+# Reportes privados de auditoría
+!security-audit/
+!security-audit/**
+
+# Config local de herramientas de desarrollo (rutas personales) —
+# descomenta el patrón que uses, si alguno

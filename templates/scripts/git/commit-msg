@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+# commit-msg — Bloquea trailers de atribución a herramientas IA.
+#
+#   El autor y firmante de cada commit es el humano, únicamente.
+#   Este hook es la barrera mecánica: ninguna regla escrita depende de que el
+#   agente la lea. Rechaza el commit si el mensaje contiene:
+#
+#     - Cualquier trailer `Co-Authored-By:` (co-autoría = atribución)
+#     - `Generated with` / `Generated-by:` / emojis de bot (🤖)
+#     - Emails/nombres de bots IA conocidos (devin, claude, copilot, ...)
+#     - Términos privados del propietario: se cargan en runtime de un conf
+#       GITIGNORED (scripts/dev/forbidden-terms.conf, un ERE por línea) —
+#       este hook es público y los términos no pueden escribirse en él.
+#       Override: STARTAI_PRIVATE_TERMS_FILE=/ruta/al/conf
+#
+#   Escape puntual (NO recomendado): git commit --no-verify
+#
+# Instalar:
+#   bash scripts/git/install-hooks.sh
+
+set -euo pipefail
+
+MSG_FILE="${1:?uso: commit-msg <fichero-mensaje>}"
+
+FORBIDDEN_PATTERNS=(
+    'Co-Authored-By:'
+    'Generated with'
+    'Generated-by:'
+    'devin-ai-integration'
+    'noreply@anthropic\.com'
+    'github-copilot\[bot\]'
+    'claude\.com>'
+    'noreply@codeium'
+    'noreply@cognition\.ai'
+    '🤖'
+)
+
+# Términos privados del propietario — NO se hardcodean en este fichero
+# (público). Se leen de un conf gitignored si existe (un ERE por línea).
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+TERMS_FILE="${STARTAI_PRIVATE_TERMS_FILE:-$PROJECT_ROOT/scripts/dev/forbidden-terms.conf}"
+if [[ -f "$TERMS_FILE" ]]; then
+    while IFS= read -r term; do
+        [[ "$term" =~ ^[[:space:]]*(#|$) ]] && continue
+        FORBIDDEN_PATTERNS+=("$term")
+    done < "$TERMS_FILE"
+fi
+
+FOUND=0
+for pat in "${FORBIDDEN_PATTERNS[@]}"; do
+    if grep -niIE "$pat" "$MSG_FILE" >&2; then
+        echo "  ^ trailer/patrón de atribución IA prohibido: '$pat'" >&2
+        FOUND=1
+    fi
+done
+
+if [[ "$FOUND" -ne 0 ]]; then
+    echo "" >&2
+    echo "❌ Commit rechazado: el autor y firmante es el humano, únicamente." >&2
+    echo "   Elimina esas líneas del mensaje y reintenta." >&2
+    echo "   Escape puntual (NO recomendado): git commit --no-verify" >&2
+    exit 1
+fi
+
+exit 0

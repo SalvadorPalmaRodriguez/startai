@@ -1,0 +1,98 @@
+# startai — Full Context for LLMs
+
+> startai is a documentation + templates kit — plus Python 3 stdlib-only tooling — for two goals: (1) convert a normal project into an **AI-native** project, and (2) leave a project **ready for distribution** in a repository.
+
+## What it is
+
+- Product: `startai`, a kit of reusable, project-agnostic processes and templates plus runnable tooling (no external dependencies).
+- Goal 1 — AI-native: `AGENTS.md`, nested `AGENTS.md`, `.agents/agents/*.md` (roles), `.agents/skills/*/SKILL.md` (self-contained domain skills), `llms.txt` / `llms-full.txt` (public AI context), and a public/private split governed by the `ai_files_visibility` config key (`"private"` default; `"public"` versions the AI-context class — secrets and owner-private files stay blocked either way).
+- Goal 2 — Distribution: bilingual `README` (EN/ES), bilingual static-site skeleton (config, custom layout with EN/ES switcher), social-preview SVG template, `SECURITY.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, `llms.txt`, and a signed update feed (`feed/`).
+- Licensing model: **source-visible proprietary** — your own code, visible in the repo, but private and non-redistributable. `LICENSE` is a template whose `{{product_name}}`, `{{owner}}`, `{{email}}`, `{{year}}` variables are populated from `config.example.json`; `THIRD_PARTY_LICENSES.md` documents third-party notices.
+- Tooling (runnable): `scripts/startai.py` (scaffolder + `adopt` for existing projects), `scripts/github.py` (GitHub repo + Pages publishing via `gh`), `scripts/git/` hooks, `tests/` (unittest suite).
+- Signing model: dual signature — **minisign (Ed25519)** classic + **ML-DSA-65 (FIPS 204)** post-quantum. Ceremony details live in the kit's `signing` skill and in `docs/en/signing.md` / `docs/es/signing.md`.
+
+## Repository layout
+
+```
+startai/
+├── README.md / README.es.md   # bilingual landing (EN + ES)
+├── llms.txt / llms-full.txt   # public LLM context (index + expanded)
+├── config.example.json        # single source of truth for project variables
+├── LICENSE                    # source-visible proprietary template (bilingual)
+├── THIRD_PARTY_LICENSES.md
+├── SECURITY.md · CONTRIBUTING.md · CHANGELOG.md
+├── .gitignore
+├── .github/ISSUE_TEMPLATE/    # bug / feature forms
+├── scripts/
+│   ├── startai.py             # generator: scaffold + `adopt` (layered adoption)
+│   ├── github.py              # GitHub publishing + Pages enablement
+│   └── git/                   # pre-commit · commit-msg · pre-push · install-hooks.sh
+├── tests/                     # unittest suite (unit · adopt · check · hooks · github · integration · e2e)
+├── templates/                 # payload the generator ships to a new project
+│   ├── AGENTS.md              # agent-rules template ({{token}} placeholders)
+│   ├── .agents/               # "Project Brain": agents/ roles, skills/ (10), orchestrator/
+│   ├── docs/                  # static-site skeleton (Jekyll, EN/ES + switcher, social preview)
+│   ├── feed/                  # signed update-feed skeleton (advisories.json)
+│   ├── scripts/               # check.py · dev/ audit+release tooling · git/ hooks
+│   ├── gitignore              # becomes .gitignore in the generated project
+│   └── README.en.md · README.es.md · LICENSE · SECURITY.md · CONTRIBUTING.md · …
+└── docs/                      # THIS repo's own GitHub Pages site (Jekyll, bilingual EN/ES)
+    ├── _config.yml · _layouts/default.html · assets/
+    ├── en/                    # ai-native · distribution · license · signing
+    └── es/                    # ai-native · distribution · license · signing
+```
+
+Key distinction: `templates/` is the payload — `{{token}}` placeholder files
+rendered into generated projects — while root `scripts/`, `docs/` and `llms*`
+are this repo's own.
+
+## Making a project AI-native (process)
+
+1. Write `AGENTS.md` at the root — canonical entry point: invariants + skills index.
+2. Add nested `AGENTS.md` only in directories that need specific rules.
+3. Create `.agents/skills/<name>/SKILL.md` — self-contained domain skills (`--- name/description ---` frontmatter).
+4. Create `.agents/agents/<name>.md` — agent roles (who does what).
+5. Create `.agents/README.md` — "Project Brain": structure + golden rule.
+6. Create `llms.txt` (index) and `llms-full.txt` (expanded single-file context) for AI indexers.
+7. Public/private split, governed by `ai_files_visibility` in `config.json`:
+   - `"private"` (default): `.gitignore` ignores `**/AGENTS.md`, `.agents/`, `CLAUDE.md`, `.claude/`; the hooks and the audit block them like any private path.
+   - `"public"`: that AI-context class is versioned on purpose and shared with the team.
+   - Always private in every mode: secrets (`*.key`, `*.pem`, `.env*`…), personal notes/plans, dev tooling, `config.json`, `.startai-adopt.json`, and agent ignore-files.
+   - `.devinignore`: gitignored file with `!` negations that un-ignore private paths **only for agent tools** (read/edit/grep). Git never reads it. Never negate secrets or build artifacts.
+
+Golden rule: `AGENTS.md` + `SKILL.md` are the only home for rules and lessons; everything else references them, never copies.
+
+For projects that already exist, `scripts/startai.py adopt` applies the kit in
+layers (`agents`, `hooks`, `audit`, `docs`, `distribution`, `release`):
+preflight findings first (each check runs only for its selected layers),
+writes only with `--apply`, conflicts diverted to `<path>.startai-new`, git
+hooks never auto-installed, idempotent re-runs via a `.startai-adopt.json`
+manifest, and a `--manual` checklist mode. The visibility flag resolves as
+`--config` (only if it defines the key) > project `config.json` > manifest >
+`"private"`.
+
+## Skills shipped to generated projects (`templates/.agents/skills/`)
+
+`ai-native` · `architecture` · `distribution` · `docs-update` · `github-pages`
+· `license` · `release` · `security` · `signing` · `updates`
+
+## Preparing a project for distribution (process)
+
+1. Bilingual `README.md` (EN) + `README.es.md` (ES): title, shields.io badges, demo GIF, one-line pitch, features, architecture, TOC, install, usage, license.
+2. Demo GIF: record a terminal session with `asciinema` (`.cast`), render to `.gif` (e.g. `agg`), commit to `docs/`.
+3. GitHub "About" section: description, website (GitHub.io URL), topics.
+4. Static site: `docs/` served by Jekyll with `theme: null`, custom `_layouts/default.html`, EN/ES language switcher (Liquid `case`), `_config.yml`, social preview 1280×640.
+5. `SECURITY.md` (coordinated disclosure), `CONTRIBUTING.md`, `CHANGELOG.md` (Keep a Changelog).
+6. Licensing: `LICENSE` (source-visible proprietary) + `THIRD_PARTY_LICENSES.md`.
+7. Release signing: dual model — minisign (Ed25519) + ML-DSA-65 (PQC); users verify downloads offline. The release pipeline, signing ceremony and key rotation live in the kit's `release`/`signing`/`updates` skills.
+
+## Licensing
+
+Source-visible proprietary license (English + Spanish): the Licensor grants a limited, non-exclusive, non-transferable, revocable right to view, read and compile the source for personal, non-commercial use. Restrictions: no commercial use, no redistribution, no derivative works, no competing products, no removal of notices. Includes mandatory coordinated-disclosure for vulnerabilities (report privately within 72 hours).
+
+## Release signing (minisign + PQC)
+
+- Classic: minisign (Ed25519) — private key lives outside the repo (0600 + passphrase), public key `minisign.pub` at repo root.
+- Post-quantum: ML-DSA-65 (FIPS 204) — private key lives outside the repo (0600 + passphrase), public key `pqc_sign.pub` at repo root.
+- Private keys are never committed.
+- Every release also re-signs the update feed (`feed/advisories.json`) so users can check for new versions verifiably.
